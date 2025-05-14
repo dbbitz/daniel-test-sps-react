@@ -1,6 +1,6 @@
 import React from "react";
 // eslint-disable-next-line no-unused-vars
-import UserService from "../services/UserService";
+import UserService from "../../services/UserService";
 
 function Users() {
   return (
