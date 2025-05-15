@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 function Users() {
   const navigate = useNavigate();
   const { showSuccess, showError } = useNotification();
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState();
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -26,6 +26,10 @@ function Users() {
 
   const fetchUsers = useCallback(async () => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        return;
+      }
       const data = await userService.list();
       setUsers(data);
       setLoading(false);
@@ -85,15 +89,6 @@ function Users() {
       showError("Erro ao excluir usuário. Tente novamente.");
     }
   };
-
-  useEffect(() => {
-    if (users.length === 0) {
-      showError("Nenhum usuário encontrado");
-      localStorage.removeItem("token");
-      navigate("/");
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [users]);
 
   if (loading) {
     return <div className="loading">Carregando usuários...</div>;
