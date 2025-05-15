@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import Users from "./pages/Users";
 import SignIn from "./pages/SignIn";
+import PrivateRoute from "./components/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -10,7 +11,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/users",
-    element: <Users />,
+    element: (
+      <PrivateRoute>
+        <Users />
+      </PrivateRoute>
+    ),
   },
   {
     path: "/login",

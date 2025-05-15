@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
-import useNotification from "../../hooks/useNotification";
 import "./styles.css";
 import Button from "../Button";
 import { Save, X } from "lucide-react";
 
 const AddUserModal = ({ onClose, onSave }) => {
-  const { showSuccess, showError } = useNotification();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,6 +11,7 @@ const AddUserModal = ({ onClose, onSave }) => {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
   const [isFormValid, setIsFormValid] = useState(false);
 
   const validateForm = useCallback(() => {
@@ -42,13 +41,7 @@ const AddUserModal = ({ onClose, onSave }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      try {
-        onSave(formData);
-        showSuccess("Usuário adicionado com sucesso!");
-        onClose();
-      } catch (error) {
-        showError("Erro ao adicionar usuário. Tente novamente.");
-      }
+      onSave(formData);
     }
   };
 
@@ -57,6 +50,14 @@ const AddUserModal = ({ onClose, onSave }) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+    }));
+  };
+
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    setTouched((prev) => ({
+      ...prev,
+      [name]: true,
     }));
   };
 
@@ -76,8 +77,9 @@ const AddUserModal = ({ onClose, onSave }) => {
               name="name"
               value={formData.name}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errors.name && (
+            {touched.name && errors.name && (
               <span className="error-message">{errors.name}</span>
             )}
           </div>
@@ -90,8 +92,9 @@ const AddUserModal = ({ onClose, onSave }) => {
               name="email"
               value={formData.email}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errors.email && (
+            {touched.email && errors.email && (
               <span className="error-message">{errors.email}</span>
             )}
           </div>
@@ -104,8 +107,9 @@ const AddUserModal = ({ onClose, onSave }) => {
               name="type"
               value={formData.type}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errors.type && (
+            {touched.type && errors.type && (
               <span className="error-message">{errors.type}</span>
             )}
           </div>
@@ -118,8 +122,9 @@ const AddUserModal = ({ onClose, onSave }) => {
               name="password"
               value={formData.password}
               onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errors.password && (
+            {touched.password && errors.password && (
               <span className="error-message">{errors.password}</span>
             )}
           </div>

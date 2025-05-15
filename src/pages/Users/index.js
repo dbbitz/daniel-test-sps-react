@@ -14,7 +14,6 @@ function Users() {
   const { showSuccess, showError } = useNotification();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -29,14 +28,15 @@ function Users() {
       setUsers(data);
       setLoading(false);
     } catch (err) {
-      setError(err.message);
       setLoading(false);
+      showError(err.message);
     }
-  }, [userService]);
+  }, [userService, showError]);
 
   useEffect(() => {
     fetchUsers();
-  }, [fetchUsers]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleEdit = (user) => {
     setSelectedUser(user);
@@ -58,8 +58,7 @@ function Users() {
       setUsers(updatedUsers);
       showSuccess("Usuário editado com sucesso!");
     } catch (err) {
-      setError(err.message);
-      showError("Erro ao editar usuário. Tente novamente.");
+      showError(err.message);
     }
   };
 
@@ -69,7 +68,8 @@ function Users() {
       setShowAddModal(false);
       setUsers([...users, formData]);
     } catch (err) {
-      setError(err.message);
+      console.log(err.message);
+      showError(err.message);
     }
   };
 
@@ -80,7 +80,6 @@ function Users() {
       fetchUsers();
       showSuccess("Usuário excluído com sucesso!");
     } catch (err) {
-      setError(err.message);
       showError("Erro ao excluir usuário. Tente novamente.");
     }
   };
@@ -89,13 +88,9 @@ function Users() {
     return <div className="loading">Carregando usuários...</div>;
   }
 
-  if (error) {
-    return <div className="error">Erro: {error}</div>;
-  }
-
   return (
     <div className="users-container">
-      <Header title="Usuários" />
+      <Header title="SPS TEST - CRUD de Usuários" />
       <div className="users-container-header">
         <Button
           icon={<Plus size={14} />}

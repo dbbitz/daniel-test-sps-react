@@ -24,11 +24,7 @@ class UserService {
       const response = await this.api.get("/user");
       return response.data;
     } catch (error) {
-      throw new Error(
-        `Erro ao listar usuários: ${
-          error.response?.data?.message || error.message
-        }`
-      );
+      throw new Error(error.response?.data?.error || "Erro ao listar usuários");
     }
   }
 
@@ -37,11 +33,8 @@ class UserService {
       const response = await this.api.get(`/user/${id}`);
       return response.data;
     } catch (error) {
-      throw new Error(
-        `Erro ao buscar usuário: ${
-          error.response?.data?.message || error.message
-        }`
-      );
+      throw new Error(error.response?.data?.error || "Erro ao buscar usuário");
+       
     }
   }
 
@@ -50,11 +43,7 @@ class UserService {
       const response = await this.api.post("/user", data);
       return response.data;
     } catch (error) {
-      throw new Error(
-        `Erro ao criar usuário: ${
-          error.response?.data?.message || error.message
-        }`
-      );
+      throw new Error(error.response?.data?.error || "Erro ao criar usuário");
     }
   }
 
@@ -63,11 +52,7 @@ class UserService {
       const response = await this.api.delete(`/user?email=${email}`);
       return response.data;
     } catch (error) {
-      throw new Error(
-        `Erro ao deletar usuário: ${
-          error.response?.data?.message || error.message
-        }`
-      );
+      throw new Error(error.response?.data?.error || "Erro ao deletar usuário");
     }
   }
 
@@ -76,11 +61,7 @@ class UserService {
       const response = await this.api.put(`/user?email=${email}`, data);
       return response.data;
     } catch (error) {
-      throw new Error(
-        `Erro ao atualizar usuário: ${
-          error.response?.data?.message || error.message
-        }`
-      );
+      throw new Error(error.response?.data?.error || "Erro ao atualizar usuário");
     }
   }
 
@@ -89,11 +70,7 @@ class UserService {
       const response = await this.api.patch(`/user?email=${email}`, data);
       return response.data;
     } catch (error) {
-      throw new Error(
-        `Erro ao atualizar parcialmente usuário: ${
-          error.response?.data?.message || error.message
-        }`
-      );
+      throw new Error(error.response?.data?.error || "Erro ao atualizar parcialmente usuário");
     }
   }
 }
