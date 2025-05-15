@@ -1,24 +1,39 @@
-import React, { useState } from 'react';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import './styles.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+import LoginService from "../../services/login-service";
+import "./styles.css";
+import useNotification from "../../hooks/useNotification";
+function SignIn() {
+  const { showSuccess, showError } = useNotification();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const loginService = new LoginService();
 
-const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aqui você pode adicionar a lógica de autenticação
-    console.log('Email:', email);
-    console.log('Senha:', password);
+    setError("");
+
+    try {
+      await loginService.login(email, password);
+      navigate("/users");
+      showSuccess("Login realizado com sucesso!");
+    } catch (error) {
+      setError(error.message);
+      showError(error.message || "Erro ao realizar login. Tente novamente.");
+    }
   };
 
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h1>Login</h1>
-        
+
+        {error && <div className="error-message">{error}</div>}
+
         <Input
           type="email"
           label="Email"
@@ -35,12 +50,10 @@ const SignIn = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <Button type="submit">
-          Entrar
-        </Button>
+        <Button type="submit">Entrar</Button>
       </form>
     </div>
   );
 };
 
-export default SignIn; 
+export default SignIn;

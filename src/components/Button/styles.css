@@ -1,4 +1,7 @@
 .button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.75rem 1.5rem;
   background-color: #007bff;
   color: white;
@@ -16,4 +19,52 @@
 .button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
+}
+
+.button-red {
+  background-color: #dc3545;
+}
+
+.button-red:hover {
+  background-color: #c82333;
+}
+
+.button-red:disabled {
+  background-color: #cccccc;
+}
+
+.button-save {
+  background-color: #28a745;
+}
+
+.button-save:hover {
+  background-color: #218838;
+}
+
+.button-save:disabled {
+  background-color: #cccccc;
+}
+
+.icon {
+  margin-right: 0.5rem;
+}
+
+.button-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.button-medium {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+.button-large {
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+}
+
+.button-icon {
+  display: flex;
+  margin-right: 0.5rem;
 }
