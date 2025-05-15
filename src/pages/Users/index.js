@@ -9,8 +9,10 @@ import AddUserModal from "../../components/Modal/AddUserModal";
 import useNotification from "../../hooks/useNotification";
 import { Pencil, Plus, Trash } from "lucide-react";
 import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 function Users() {
+  const navigate = useNavigate();
   const { showSuccess, showError } = useNotification();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,7 +37,7 @@ function Users() {
 
   useEffect(() => {
     fetchUsers();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleEdit = (user) => {
@@ -83,6 +85,15 @@ function Users() {
       showError("Erro ao excluir usuário. Tente novamente.");
     }
   };
+
+  useEffect(() => {
+    if (users.length === 0) {
+      showError("Nenhum usuário encontrado");
+      localStorage.removeItem("token");
+      navigate("/");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [users]);
 
   if (loading) {
     return <div className="loading">Carregando usuários...</div>;

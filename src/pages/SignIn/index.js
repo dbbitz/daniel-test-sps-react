@@ -9,20 +9,17 @@ function SignIn() {
   const { showSuccess, showError } = useNotification();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   const loginService = new LoginService();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
 
     try {
       await loginService.login(email, password);
       navigate("/users");
       showSuccess("Login realizado com sucesso!");
     } catch (error) {
-      setError(error.message);
       showError(error.message || "Erro ao realizar login. Tente novamente.");
     }
   };
@@ -31,8 +28,6 @@ function SignIn() {
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h1>Login</h1>
-
-        {error && <div className="error-message">{error}</div>}
 
         <Input
           type="email"
