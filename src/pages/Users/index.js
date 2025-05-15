@@ -9,10 +9,8 @@ import AddUserModal from "../../components/Modal/AddUserModal";
 import useNotification from "../../hooks/useNotification";
 import { Pencil, Plus, Trash } from "lucide-react";
 import Button from "../../components/Button";
-import { useNavigate } from "react-router-dom";
 
 function Users() {
-  const navigate = useNavigate();
   const { showSuccess, showError } = useNotification();
   const [users, setUsers] = useState();
   const [loading, setLoading] = useState(true);
